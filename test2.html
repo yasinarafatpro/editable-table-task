@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Table</title>
+    <link rel="stylesheet" href="styletest2.css">
+</head>
+<body>
+    <div class="container">
+        <table id="editableTable">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+            <tr>
+                <td contenteditable="false">Exmp:John </td>
+                <td contenteditable="false">Exmp:Doe</td>
+                <td contenteditable="false">Exmp:Manager</td>
+                <td contenteditable="false">Exmp:Dhaka</td>
+                <td contenteditable="false">Exmp:2023-07-18</td>
+                <td contenteditable="false">Exmp:40000</td>
+            </tr>
+        </table><br/>
+        <div class="button-container">
+            <button class="button" id="addValueBtn">Add Row</button><br/><br/>
+            <button class="button button2" id="submitButton">Submit</button>
+        </div>
+    </div>
+</body>
+<script>
+    const addValueBtn = document.getElementById('addValueBtn');
+    const submitButton = document.getElementById('submitButton');
+    const editableTable = document.getElementById('editableTable');
+
+    // Function to add a new row to the table
+    const addRow = () => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        `;
+        editableTable.appendChild(newRow);
+    };
+
+    // Event listener for the "Add Value" button
+    addValueBtn.addEventListener('click', () => {
+        addRow();
+    });
+
+    // Event listener for the "Submit" button
+    submitButton.addEventListener('click', () => {
+        const tableData = [];
+
+        // Get all rows of the table
+        const rows = editableTable.getElementsByTagName('tr');
+
+        // Loop through the rows and collect data from the cells
+        for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+            const row = rows[i];
+            // const nameCell = row.cells[0];
+            // const ageCell = row.cells[1];
+            const firstName = row.cells[0];
+            const lastName = row.cells[1];
+            const position = row.cells[2];
+            const office = row.cells[3];
+            const date = row.cells[4];
+            const salary = row.cells[5];
+            // Collect the data from the cells and push it into the tableData array
+            tableData.push({
+                firstName: firstName.innerText.trim(),
+                lastName: lastName.innerText.trim(),
+                position: position.innerHTML.trim(),
+                office: office.innerHTML.trim(),
+                date: date.innerHTML.trim(),
+                salary: salary.innerHTML.trim()
+            });
+        }
+        alert("Added values: " + tableData.map(s => s.firstName));
+        // Log the collected data (You can send it to a server for further processing)
+        console.log(tableData);
+    });
+</script>
+
+</html>

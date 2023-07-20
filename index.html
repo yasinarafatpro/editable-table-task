@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Table</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <table id="editable-table">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+            <tr>
+                <td contenteditable="false">Exmp:John </td>
+                <td contenteditable="false">Exmp:Doe</td>
+                <td contenteditable="false">Exmp:Manager</td>
+                <td contenteditable="false">Exmp:Dhaka</td>
+                <td contenteditable="false">Exmp:2023-07-18</td>
+                <td contenteditable="false">Exmp:40000</td>
+            </tr>
+        </table><br />
+         <!-- Add Value Form -->
+    <form id="add-form" class="add-value-form">
+        <input type="text" class="add-value-input" id="firstname" placeholder="FirstName">
+        <input type="text" class="add-value-input" id="lastname" placeholder="LastName">
+        <input type="text" class="add-value-input" id="position" placeholder="Position">
+        <input type="text" class="add-value-input" id="office" placeholder="Office">
+        <input type="date" class="add-value-input" id="date" placeholder="Date">
+        <input type="number" class="add-value-input" id="salary" placeholder="Salary">
+        <button type="button" onclick="addValue()">Add</button>
+    </form>
+        <div class="group-button">
+            <button class="button" onclick="toggleAddForm()">Add Row</button><br /><br />
+            <button class="button button2" onclick="submitValues()">Submit !!</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleAddForm() {
+            const form = document.getElementById("add-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+
+        function addValue() {
+            const firstName = document.getElementById("firstname").value;
+            const lastName = document.getElementById("lastname").value;
+            const position = document.getElementById("position").value;
+            const office = document.getElementById("office").value;
+            const date = document.getElementById("date").value;
+            const salary = document.getElementById("salary").value;
+            
+            if (firstName.trim() === "" || lastName.trim() === "" || position.trim() === ""
+                || office.trim() === "" || date.trim() === "" || salary.trim() === "") {
+                alert("Please fill all input fields before adding a new value.");
+                return;
+            }
+
+            const table = document.getElementById("editable-table");
+            const newRow = table.insertRow(table.rows.length);
+
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+            const cell5 = newRow.insertCell(4);
+            const cell6 = newRow.insertCell(5);
+
+            cell1.contentEditable = true;
+            cell2.contentEditable = true;
+            cell3.contentEditable = true;
+            cell4.contentEditable = true;
+            cell5.contentEditable = true;
+            cell6.contentEditable = true;
+
+            cell1.innerHTML = firstName;
+            cell2.innerHTML = lastName;
+            cell3.innerHTML = position;
+            cell4.innerHTML = office;
+            cell5.innerHTML = date;
+            cell6.innerHTML = salary;
+
+            // Clear input fields after adding a new row
+            document.getElementById("firstname").value = "";
+            document.getElementById("lastname").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("office").value = "";
+            document.getElementById("date").value = "";
+            document.getElementById("salary").value = "";
+
+            toggleAddForm(); // Hide the form after adding a new row.
+        }
+
+        function submitValues() {
+            const table = document.getElementById("editable-table");
+            var cells = table.getElementsByClassName("editable");
+            const numRows = table.rows.length;
+            var addedValues=[];
+            for (let i = 1; i < numRows; i++) {
+                const row = table.rows[i];
+                const firstName = row.cells[0].innerHTML;
+                const lastName = row.cells[1].innerHTML;
+                const position = row.cells[2].innerHTML;
+                const office = row.cells[3].innerHTML;
+                const date = row.cells[4].innerHTML;
+                const salary = row.cells[5].innerHTML
+
+                addedValues.push(firstName,lastName,position,office,date,salary);
+            }
+
+            //Remove contentEditable property from all cells
+            for (let i = 1; i < table.rows.length; i++) {
+                const row = table.rows[i];
+                for (let j = 0; j < row.cells.length; j++) {
+                    row.cells[j].removeAttribute("contenteditable");
+                }
+            }
+            alert("Added values: " + addedValues.join(", "));
+            
+        }
+    </script>
+</body>
+
+</html>
